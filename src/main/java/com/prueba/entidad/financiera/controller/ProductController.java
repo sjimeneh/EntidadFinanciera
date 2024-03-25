@@ -21,7 +21,7 @@ public class ProductController {
     @PostMapping("/create")
     public ResponseEntity<?> CreateProduct(@Valid @RequestBody Product product){
         try {
-            _iProductService.Save(product);
+            product = _iProductService.Save(product);
             return new ResponseEntity<>(product, HttpStatus.CREATED);
         } catch (CustomException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
