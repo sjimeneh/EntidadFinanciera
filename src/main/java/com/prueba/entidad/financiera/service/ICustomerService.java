@@ -12,4 +12,6 @@ public interface ICustomerService{
     Customer Update(Long id, Customer entity);
     boolean Delete(Long id);
 
+    boolean ExistById(Long id);
+
 }

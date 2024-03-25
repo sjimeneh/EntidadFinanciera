@@ -39,8 +39,8 @@ public class CustomerController {
 
     @PutMapping("/update/{id}")
     public ResponseEntity<Customer> UpdateCustomer(@PathVariable Long id,@Valid @RequestBody Customer customer){
-        Customer oCustomer = _iCustomerService.GetById(id);
-        if(oCustomer == null){
+
+        if(!_iCustomerService.ExistById(id)){
             return new ResponseEntity<Customer>(HttpStatus.NOT_FOUND);
         }
 

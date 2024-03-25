@@ -64,4 +64,9 @@ ICustomerRepository _iCustomerRepository;
             return false;
         }
     }
+
+    @Override
+    public boolean ExistById(Long id) {
+        return _iCustomerRepository.existsById(id);
+    }
 }
