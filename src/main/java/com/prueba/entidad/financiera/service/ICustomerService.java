@@ -9,7 +9,7 @@ public interface ICustomerService{
     List<Customer> GetAll();
     Customer GetById(Long id);
     Customer Save(Customer entity);
-    Customer Update(Customer entity);
+    Customer Update(Long id, Customer entity);
     boolean Delete(Long id);
 
 }

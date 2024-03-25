@@ -33,10 +33,23 @@ ICustomerRepository _iCustomerRepository;
     }
 
     @Override
-    public Customer Update(Customer entity) {
-        if(GetById(entity.getId()) != null){
-            return _iCustomerRepository.save(entity);
-        }else{
+    public Customer Update(Long id,Customer entity) {
+        // Verificar si el cliente existe en la base de datos
+        Optional<Customer> existingCustomerOptional = _iCustomerRepository.findById(id);
+
+        // Si el cliente existe, actualiza sus datos
+        if (existingCustomerOptional.isPresent()) {
+            Customer existingCustomer = existingCustomerOptional.get();
+            existingCustomer.setFirstName(entity.getFirstName());
+            existingCustomer.setLastName(entity.getLastName());
+            existingCustomer.setDateOfBirth(entity.getDateOfBirth());
+            existingCustomer.setEmail(entity.getEmail());
+            existingCustomer.setIdentificationNumber(entity.getIdentificationNumber());
+            existingCustomer.setIdentificationType(entity.getIdentificationType());
+
+            return _iCustomerRepository.save(existingCustomer);
+        } else {
+            // Si el cliente no existe, retorna null o maneja el caso según tu lógica de negocio
             return null;
         }
     }

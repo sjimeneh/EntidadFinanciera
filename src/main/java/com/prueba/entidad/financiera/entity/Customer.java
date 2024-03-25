@@ -7,6 +7,7 @@ import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.CreatedDate;
 
 import java.util.Date;
 import java.util.List;
@@ -16,8 +17,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Customer {
-
+public class Customer extends Auditable {
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         private Long id;
@@ -43,14 +43,6 @@ public class Customer {
         @Column(nullable = false)
         @Temporal(TemporalType.DATE)
         private Date dateOfBirth;
-
-        @Column(nullable = false)
-        @Temporal(TemporalType.TIMESTAMP)
-        private Date creationDate;
-
-        @Column(nullable = false)
-        @Temporal(TemporalType.TIMESTAMP)
-        private Date modificationDate;
 
         @OneToMany(mappedBy = "customer")
         @JsonIgnoreProperties(value="customer")
