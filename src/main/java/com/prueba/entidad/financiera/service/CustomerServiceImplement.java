@@ -1,6 +1,7 @@
 package com.prueba.entidad.financiera.service;
 
 import com.prueba.entidad.financiera.entity.Customer;
+import com.prueba.entidad.financiera.exception.MinorAgeException;
 import com.prueba.entidad.financiera.repository.ICustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,8 +30,12 @@ ICustomerRepository _iCustomerRepository;
 
     @Override
     public Customer Save(Customer entity) {
-        return _iCustomerRepository.save(entity);
+        if (!entity.isAdult()) {
+            throw new MinorAgeException("El cliente debe ser mayor de edad.");
+        }
+       return _iCustomerRepository.save(entity);
     }
+
 
     @Override
     public Customer Update(Long id,Customer entity) {

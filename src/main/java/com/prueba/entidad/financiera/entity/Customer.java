@@ -9,6 +9,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
 
@@ -47,5 +50,13 @@ public class Customer extends Auditable {
         @OneToMany(mappedBy = "customer")
         @JsonIgnoreProperties(value="customer")
         private List<Product> products;
+
+        // Método para verificar si el cliente es mayor de edad
+        public boolean isAdult() {
+                LocalDate today = LocalDate.now();
+                LocalDate birthDate = dateOfBirth.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+                int age = Period.between(birthDate, today).getYears();
+                return age >= 18;
+        }
 
 }

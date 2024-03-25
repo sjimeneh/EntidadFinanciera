@@ -1,6 +1,7 @@
 package com.prueba.entidad.financiera.controller;
 
 import com.prueba.entidad.financiera.entity.Customer;
+import com.prueba.entidad.financiera.exception.MinorAgeException;
 import com.prueba.entidad.financiera.service.ICustomerService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,9 +18,14 @@ public class CustomerController {
     ICustomerService _iCustomerService;
 
     @PostMapping("/create")
-    public ResponseEntity<Customer> CreateCustomer(@Valid @RequestBody Customer customer){
-        Customer ResponseCustomer =  _iCustomerService.Save(customer);
-        return new ResponseEntity<Customer>(ResponseCustomer, HttpStatus.OK);
+    public ResponseEntity<?> CreateCustomer(@Valid @RequestBody Customer customer){
+
+        try {
+            _iCustomerService.Save(customer);
+            return new ResponseEntity<>(customer, HttpStatus.CREATED);
+        } catch (MinorAgeException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
     }
 
     @GetMapping("/find/{id}")
