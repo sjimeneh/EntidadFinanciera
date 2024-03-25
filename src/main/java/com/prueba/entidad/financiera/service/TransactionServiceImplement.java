@@ -49,7 +49,30 @@ public class TransactionServiceImplement implements ITransactionService{
 
     @Override
     public boolean Delete(Long id) {
-        return false;
+        if(_iTransactionRepository.existsById(id)){
+            Transaction transaction = GetById(id);
+            switch (transaction.getTransactionType()){
+                case TRANSFER -> {
+                    AddValueToBalance(transaction.getOriginProduct(),transaction.getAmount());
+                    DecreaseValueToBalance(transaction.getDestinationProduct(),transaction.getAmount());
+                    UpdateProduct(transaction.getOriginProduct());
+                    UpdateProduct(transaction.getDestinationProduct());
+                }
+                case DEPOSIT -> {
+                    DecreaseValueToBalance(transaction.getDestinationProduct(),transaction.getAmount());
+                    UpdateProduct(transaction.getDestinationProduct());
+                }
+                case WITHDRAWAL -> {
+                    AddValueToBalance(transaction.getOriginProduct(),transaction.getAmount());
+                    UpdateProduct(transaction.getOriginProduct());
+                }
+            }
+
+            _iTransactionRepository.deleteById(id);
+            return true;
+        }else{
+            throw new CustomException("La transacción con ID = "+id+" No existe");
+        }
     }
 
     @Override

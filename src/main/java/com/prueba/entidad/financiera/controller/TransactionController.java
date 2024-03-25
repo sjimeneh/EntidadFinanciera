@@ -45,4 +45,20 @@ public class TransactionController {
 
         return _iTransactionService.GetAll();
     }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<?> DeleteTransaction(@PathVariable Long id) {
+        Transaction transaction = _iTransactionService.GetById(id);
+
+        if(transaction==null){
+            return new ResponseEntity<String>(HttpStatus.NOT_FOUND);
+        }
+
+        if (_iTransactionService.Delete(id)) {
+            return ResponseEntity.ok("Producto eliminado con éxito");
+        }else {
+            return new ResponseEntity<String>("No se pudo eliminar la transacción", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+    }
 }
