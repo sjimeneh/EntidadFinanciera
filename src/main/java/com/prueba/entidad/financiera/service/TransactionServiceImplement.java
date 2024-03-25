@@ -3,6 +3,7 @@ package com.prueba.entidad.financiera.service;
 import com.prueba.entidad.financiera.entity.Product;
 import com.prueba.entidad.financiera.entity.Transaction;
 import com.prueba.entidad.financiera.entity.enums.ProductType;
+import com.prueba.entidad.financiera.entity.enums.StatusProduct;
 import com.prueba.entidad.financiera.entity.enums.TransactionType;
 import com.prueba.entidad.financiera.exception.CustomException;
 import com.prueba.entidad.financiera.repository.ITransactionRepository;
@@ -134,7 +135,14 @@ public class TransactionServiceImplement implements ITransactionService{
     private void ValidateTransfer(Transaction transaction){
         ValidateProduct(transaction.getOriginProduct(),"Origen");
         ValidateProduct(transaction.getDestinationProduct(),"Destino");
+
         ValidateAmount(transaction.getAmount());
+    }
+
+    private void ValidateStateProduct(Product product,String reference){
+        if(product.getStatus().equals(StatusProduct.CANCELED)){
+            throw new CustomException("La cuenta "+reference+" No puede estar CANCELADA");
+        }
     }
 
     private void ValidateDeposit(Transaction transaction){
@@ -151,6 +159,8 @@ public class TransactionServiceImplement implements ITransactionService{
         if(!ValidateExistProductById(product.getId())){
             throw new CustomException("El Producto "+reference+" NO Existe");
         }
+
+        ValidateStateProduct(product,reference);
     }
 
 
