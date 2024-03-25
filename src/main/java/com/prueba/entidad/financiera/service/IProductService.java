@@ -11,6 +11,7 @@ import java.util.List;
 public interface IProductService {
     List<Product> GetAll();
     Product GetById(Long id);
+    Product GetByProductNumber(String productNumber);
     Product Save(Product entity);
     Product UpdateBalance(Long id, BigDecimal newBalance);
     Product UpdateStatus(Long id, StatusProduct status);

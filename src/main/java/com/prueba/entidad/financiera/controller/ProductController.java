@@ -39,6 +39,17 @@ public class ProductController {
         return new ResponseEntity<Product>(ResponseProduct, HttpStatus.OK);
     }
 
+    @GetMapping("/find/number/{productNumber}")
+    public ResponseEntity<Product> FindProductByProductNumber(@PathVariable String productNumber){
+
+        Product ResponseProduct =  _iProductService.GetByProductNumber(productNumber);
+
+        if(ResponseProduct == null){
+            return new ResponseEntity<Product>(ResponseProduct, HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<Product>(ResponseProduct, HttpStatus.OK);
+    }
+
     @GetMapping("/find/all")
     public List<Product> FindAllProducts(){
         return _iProductService.GetAll();

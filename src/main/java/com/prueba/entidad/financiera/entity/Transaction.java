@@ -32,11 +32,10 @@ public class Transaction {
     @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime dateTransaction;
 
-    @NotNull
     @ManyToOne
     @JsonIgnoreProperties(value = "transactions")
-    @JoinColumn(name = "product_id", nullable = false)
-    private Product product;
+    @JoinColumn(name = "origin_product_id", nullable = false)
+    private Product originProduct;
 
     @NotNull
     @ManyToOne

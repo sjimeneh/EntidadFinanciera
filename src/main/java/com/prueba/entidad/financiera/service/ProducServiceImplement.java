@@ -33,6 +33,12 @@ public class ProducServiceImplement implements IProductService {
     }
 
     @Override
+    public Product GetByProductNumber(String productNumber) {
+        Optional<Product> product = _iProductRepository.findByProductNumber(productNumber);
+        return product.orElse(null);
+    }
+
+    @Override
     public Product Save(Product product) {
         if(product.getCustomer().getId() == null){
             throw new CustomException("El ID del cliente es obligatorio");

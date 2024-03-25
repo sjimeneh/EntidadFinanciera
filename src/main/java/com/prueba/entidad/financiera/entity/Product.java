@@ -48,8 +48,8 @@ public class Product extends Auditable{
     @JoinColumn(name = "customer_id", nullable = false)
     private Customer customer;
 
-    @OneToMany(mappedBy = "product")
-    @JsonIgnoreProperties(value = "product")
+    @OneToMany(mappedBy = "originProduct")
+    @JsonIgnoreProperties(value = "originProduct")
     private List<Transaction> transactions;
 
 
