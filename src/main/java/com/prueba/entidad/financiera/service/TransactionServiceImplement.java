@@ -10,8 +10,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
+
 @Service
 public class TransactionServiceImplement implements ITransactionService{
     @Autowired
@@ -20,12 +23,15 @@ public class TransactionServiceImplement implements ITransactionService{
     IProductService _iProductService;
     @Override
     public List<Transaction> GetAll() {
-        return null;
+        List<Transaction> transactions = new ArrayList<>();
+        _iTransactionRepository.findAll().forEach(transactions::add);
+        return transactions;
     }
 
     @Override
     public Transaction GetById(Long id) {
-        return null;
+        Optional<Transaction> transaction = _iTransactionRepository.findById(id);
+        return transaction.orElse(null);
     }
 
     @Override
