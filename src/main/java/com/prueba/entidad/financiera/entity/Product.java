@@ -36,7 +36,6 @@ public class Product extends Auditable{
     private StatusProduct status;
 
     @NotNull
-    @Min(0)
     private BigDecimal balance;
 
     @NotNull

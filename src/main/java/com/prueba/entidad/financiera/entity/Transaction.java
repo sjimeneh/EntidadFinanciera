@@ -39,10 +39,9 @@ public class Transaction {
 
     @ManyToOne
     @JsonIgnoreProperties(value = "transactions")
-    @JoinColumn(name = "origin_product_id", nullable = false)
+    @JoinColumn(name = "origin_product_id")
     private Product originProduct;
 
-    @NotNull
     @ManyToOne
     @JsonIgnoreProperties(value = "transactions")
     @JoinColumn(name = "destination_account_id")

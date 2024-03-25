@@ -60,30 +60,34 @@ public class TransactionServiceImplement implements ITransactionService{
             switch (transaction.getTransactionType()){
 
                 case TRANSFER -> {
+                    ValidateTransfer(transaction);
+
                     originProduct = FindProductById(originProduct.getId());
                     destinationProduct = FindProductById(destinationProduct.getId());
+
                     transaction.setOriginProduct(originProduct);
                     transaction.setDestinationProduct(destinationProduct);
 
-                    ValidateTransfer(transaction);
                     DecreaseValueToBalance(originProduct,transaction.getAmount());
                     UpdateProduct(originProduct);
+
                     AddValueToBalance(destinationProduct,transaction.getAmount());
                     UpdateProduct(destinationProduct);
                 }
                 case DEPOSIT -> {
+                    ValidateDeposit(transaction);
+
                     destinationProduct = FindProductById(destinationProduct.getId());
                     transaction.setDestinationProduct(destinationProduct);
-                    ValidateDeposit(transaction);
+
                     AddValueToBalance(destinationProduct,transaction.getAmount());
                     UpdateProduct(destinationProduct);
                 }
                 case WITHDRAWAL -> {
-                    originProduct = FindProductById(originProduct.getId());
-                    transaction.setOriginProduct(originProduct);
                     ValidateWithdrawal(transaction);
-                    DecreaseValueToBalance(originProduct,transaction.getAmount());
-                    UpdateProduct(originProduct);
+
+                    DecreaseValueToBalance(transaction.getOriginProduct(),transaction.getAmount());
+                    UpdateProduct(transaction.getOriginProduct());
                 }
             }
         }
@@ -151,6 +155,10 @@ public class TransactionServiceImplement implements ITransactionService{
         ValidateAmount(transaction.getAmount());
         ValidateProductNotNecessary(transaction.getDestinationProduct(),"Destino");
         ValidateProduct(transaction.getOriginProduct(),"Origen");
+
+        Product originProduct = FindProductById(transaction.getOriginProduct().getId());
+        transaction.setOriginProduct(originProduct);
+
         ValidateAmountToDecrease(transaction.getOriginProduct().getBalance(),transaction.getAmount(),transaction.getOriginProduct().getProductType());
     }
 
