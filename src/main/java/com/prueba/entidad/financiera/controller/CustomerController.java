@@ -1,7 +1,7 @@
 package com.prueba.entidad.financiera.controller;
 
 import com.prueba.entidad.financiera.entity.Customer;
-import com.prueba.entidad.financiera.exception.MinorAgeException;
+import com.prueba.entidad.financiera.exception.CustomException;
 import com.prueba.entidad.financiera.service.ICustomerService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +23,7 @@ public class CustomerController {
         try {
             _iCustomerService.Save(customer);
             return new ResponseEntity<>(customer, HttpStatus.CREATED);
-        } catch (MinorAgeException e) {
+        } catch (CustomException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
@@ -32,6 +32,7 @@ public class CustomerController {
     public ResponseEntity<Customer> FindCustomerByID(@PathVariable Long id){
 
         Customer ResponseCustomer =  _iCustomerService.GetById(id);
+
         if(ResponseCustomer == null){
             return new ResponseEntity<Customer>(ResponseCustomer, HttpStatus.NOT_FOUND);
         }

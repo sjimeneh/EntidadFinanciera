@@ -1,20 +1,16 @@
 package com.prueba.entidad.financiera.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.prueba.entidad.financiera.entity.enums.AccountType;
-import com.prueba.entidad.financiera.entity.enums.StatusAccount;
+import com.prueba.entidad.financiera.entity.enums.ProductType;
+import com.prueba.entidad.financiera.entity.enums.StatusProduct;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.CreatedDate;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -22,38 +18,29 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Product {
+public class Product extends Auditable{
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotNull
     @Enumerated(EnumType.STRING)
-    private AccountType accountType;
+    private ProductType productType;
 
-    @NotNull
-    @Size(min = 10, max = 10)
-    @Pattern(regexp = "^[0-9]+$")
-    private String accountNumber;
+    @Column(nullable = false,length = 10,unique = true,updatable = false)
+    private String productNumber;
 
     @NotNull
     @Enumerated(EnumType.STRING)
-    private StatusAccount status;
+    private StatusProduct status;
 
     @NotNull
     @Min(0)
     private BigDecimal balance;
 
     @NotNull
-    private Boolean exemptFromGmf; // Assuming Gmf refers to a fee or tax
-
-    @Column(nullable = false)
-    @Temporal(TemporalType.TIMESTAMP)
-    private LocalDateTime creationDate;
-
-    @Column(nullable = false)
-    @Temporal(TemporalType.TIMESTAMP)
-    private LocalDateTime modificationDate;
+    private Boolean exemptFromGmf;
 
     @NotNull
     @ManyToOne
@@ -64,5 +51,6 @@ public class Product {
     @OneToMany(mappedBy = "product")
     @JsonIgnoreProperties(value = "product")
     private List<Transaction> transactions;
+
 
 }

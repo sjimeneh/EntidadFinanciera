@@ -1,7 +1,7 @@
 package com.prueba.entidad.financiera.exception;
 
-public class MinorAgeException extends RuntimeException {
-    public MinorAgeException(String message) {
+public class CustomException extends RuntimeException {
+    public CustomException(String message) {
 
         super(message);
     }

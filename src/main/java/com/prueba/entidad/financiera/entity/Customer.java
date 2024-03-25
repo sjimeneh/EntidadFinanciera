@@ -1,5 +1,6 @@
 package com.prueba.entidad.financiera.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
@@ -52,6 +53,7 @@ public class Customer extends Auditable {
         private List<Product> products;
 
         // Método para verificar si el cliente es mayor de edad
+        @JsonIgnore
         public boolean isAdult() {
                 LocalDate today = LocalDate.now();
                 LocalDate birthDate = dateOfBirth.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
