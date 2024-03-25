@@ -1,6 +1,6 @@
 package com.prueba.entidad.financiera.entity.enums;
 
-public enum StatusAccount {
+public enum StatusProduct {
     ACTIVE,
     INACTIVE,
     CANCELED
