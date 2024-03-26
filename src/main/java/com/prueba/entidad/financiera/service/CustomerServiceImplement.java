@@ -54,7 +54,7 @@ ICustomerRepository _iCustomerRepository;
 
             return _iCustomerRepository.save(existingCustomer);
         } else {
-            // Si el cliente no existe, retorna null o maneja el caso según tu lógica de negocio
+            // Si el cliente no existe, retorna null
             return null;
         }
     }
