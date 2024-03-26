@@ -55,7 +55,7 @@ public class TransactionController {
         }
 
         if (_iTransactionService.Delete(id)) {
-            return ResponseEntity.ok("Producto eliminado con éxito");
+            return ResponseEntity.ok("Transaccion eliminada con éxito");
         }else {
             return new ResponseEntity<String>("No se pudo eliminar la transacción", HttpStatus.INTERNAL_SERVER_ERROR);
         }
